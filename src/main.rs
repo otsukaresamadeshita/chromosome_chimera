@@ -21,7 +21,7 @@ struct Cli {
     parse(from_os_str)
 )]
     infile: std::path::PathBuf,
-    
+
     // /// Path to the file to write
     // #[structopt(
     //     short="o", 
