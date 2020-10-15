@@ -72,6 +72,7 @@ fn main() {
     // println!("{}", seqreads); 
 }
 
+
 // fn get_seqreads_index(name: &String, array: &Vec<String>) -> Option<usize> {
 //     match array.binary_search(name) {
 //         Ok(index) => Some(index),
