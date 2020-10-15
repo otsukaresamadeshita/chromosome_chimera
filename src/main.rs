@@ -91,6 +91,7 @@ fn main() {
 //     println!("not found");
 // }
 
+
 // fn get_qname(infile: String, args: String){
 //     for read in infile.lines() {
 //         if read.contains(&args.sequence) {
