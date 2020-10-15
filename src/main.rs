@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use structopt::StructOpt;
 // use std::{fs::File};
 // use std::io::{Write, BufReader, BufRead, Error};
@@ -30,58 +31,86 @@ struct Cli {
     // )]
     //     path: std::path::PathBuf,
 }
+    // since there is only one occurrence per qname, we can use xor
 
 fn main() {
     let args = Cli::from_args();
-    let file = std::fs::read_to_string(&args.infile)
+    let infile = std::fs::read_to_string(&args.infile)
     .expect("could not read file");
-    for read in file.lines() {
+    let mut frequency: HashMap<&str, u32> = HashMap::new(); //frequency hashmap
+    // let mut readhash: HashMap<&str, u32> = HashMap::new(); //qname and whole read hashmap   
+    let mut seqreads = String::from("");
+    // let mut seqreads = vec![];
+    for read in infile.lines() {
         if read.contains(&args.sequence) {
-                let readiter: Vec<_> = read.split_whitespace()
-                    .into_iter()
-                    .map(|s| s.parse::<String>())
-                    .filter_map(Result::ok)
-                    .collect();
-                let dupqnames = readiter.into_iter().nth(0).unwrap();
-                println!("{}", dupqnames);
+            seqreads.push_str(read);
+            let readiter = read.split_whitespace().nth(0).unwrap();
+            *frequency.entry(&readiter).or_insert(0) += 1;
+            // let readiter: Vec<_> = read.split_whitespace().nth(0)
+                // .into_iter()
+                // .map(|s| s.parse::<String>())
+                // .filter_map(Result::ok)
+                // .collect();
+                // println!("{:?}", &readiter); 
+                // let dupqnames = readiter.into_iter().nth(0).unwrap();
+                // *frequency.entry(read).or_insert(0) += 1;
+                // let dupqnames = readiter.into_iter().nth(0).unwrap();
         }
     }
+    // seqreads.sort_unstable();
+    for (key, val) in frequency.iter() {
+        if val == &1 { //only one occurrence, aka single occurrence over the chromosome
+            for seq in seqreads.lines() {
+                if seq.contains(key) {
+                    println!("{}", seq); 
+                    // println!("{:?}", seqreads.find(key)); 
+                
+                }//grep the original file
+            }
+        }  
+    }
+    // println!("{}", seqreads); 
 }
 
-    // let split = line.split_whitespace();
-    // let seqvec = split.collect::<Vec<&str>>();
-    // println!("{:?}", split);
+// fn get_seqreads_index(name: &String, array: &Vec<String>) -> Option<usize> {
+//     match array.binary_search(name) {
+//         Ok(index) => Some(index),
+//         Err(_)    => None,
+//     }
+// }
 
-
-                // let qnamecounts: HashMap<&str, i32> = dupqnames.iter().cloned().collect();
-                // // use the values stored in map
-                // let nondupnames: Vec<_> = dupqnames.into_iter().map(String::from);
-                // nondupqnames.sort_by();
-                // nondupqnames.dedup();
-                // let mut frequency: HashMap<&str, u32> = HashMap::new();
-                // let freqiter: Vec<_> = read
-                    // .into_iter()
-                    // .map(|s| s.parse::<String>())
-                    // .filter_map(Result::ok)
-                // let nondupqnames = &dupqnames.;
-                // let test = nondupqnames.sort()
-
-// fn get_qnames() {
-//     let readiter: Vec<_> = read.split_whitespace()
+// let needle = "list".into();
+// let haystack: Vec<_> = vec!["some", "long", "list", "of", "strings"]
 //     .into_iter()
-//     .map(|s| s.parse::<String>())
-//     .filter_map(Result::ok)
+//     .map(String::from)
 //     .collect();
-//     readiter.into_iter().nth(0);
+// if haystack.contains(&needle) {
+//     println!("{}", needle);
+// } else {
+//     println!("not found");
 // }
 
-// use std::collections::HashMap;
-// fn sequence_frequency(){
-//     let mut frequency: HashMap<&str, u32> = HashMap::new();
-//     for read in file.lines() {
+// fn get_qname(infile: String, args: String){
+//     for read in infile.lines() {
 //         if read.contains(&args.sequence) {
-//     *frequency.entry(&read).or_insert(0) += 1;
+//             let readiter: Vec<_> = read.split_whitespace()
+//                 .into_iter()
+//                 .map(|s| s.parse::<String>())
+//                 .filter_map(Result::ok)
+//                 .collect();
+//         }
+//     }
 // }
-// println!("{:?}", frequency);
-// }
+
+// fn hashmap_count(infile: String) -> &'static str {
+//     for read in infile.lines() {
+//         *frequency.entry(read).or_insert(0) += 1;
+//     }
+//     for (key, val) in frequency.iter() {
+//         if val == &1 { //only one occurrence, aka single occurrence over the chromosome
+//             // println!("key: {} val: {}", key, val);
+//             println!("{}", key);
+            
+//         }
+//     }
 // }
