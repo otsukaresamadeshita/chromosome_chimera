@@ -35,41 +35,28 @@ struct Cli {
 
 fn main() {
     let args = Cli::from_args();
-    let infile = std::fs::read_to_string(&args.infile)
+    let file = std::fs::read_to_string(&args.infile)
     .expect("could not read file");
     let mut frequency: HashMap<&str, u32> = HashMap::new(); //frequency hashmap
-    // let mut readhash: HashMap<&str, u32> = HashMap::new(); //qname and whole read hashmap   
-    let mut seqreads = String::from("");
-    // let mut seqreads = vec![];
-    for read in infile.lines() {
-        if read.contains(&args.sequence) {
+    let mut seqreads = String::new();
+    for read in file.lines() {
+        if read.starts_with('\u{0040}'){println!("{}", read);} else { //'\u{0040}'
+            if read.contains(&args.sequence) {
             seqreads.push_str(read);
             let readiter = read.split_whitespace().nth(0).unwrap();
             *frequency.entry(&readiter).or_insert(0) += 1;
-            // let readiter: Vec<_> = read.split_whitespace().nth(0)
-                // .into_iter()
-                // .map(|s| s.parse::<String>())
-                // .filter_map(Result::ok)
-                // .collect();
-                // println!("{:?}", &readiter); 
-                // let dupqnames = readiter.into_iter().nth(0).unwrap();
-                // *frequency.entry(read).or_insert(0) += 1;
-                // let dupqnames = readiter.into_iter().nth(0).unwrap();
+            }
         }
     }
-    // seqreads.sort_unstable();
     for (key, val) in frequency.iter() {
         if val == &1 { //only one occurrence, aka single occurrence over the chromosome
             for seq in seqreads.lines() {
                 if seq.contains(key) {
-                    println!("{}", seq); 
-                    // println!("{:?}", seqreads.find(key)); 
-                
-                }//grep the original file
+                    println!("{}", seq);                
+                }
             }
         }  
     }
-    // println!("{}", seqreads); 
 }
 
 
