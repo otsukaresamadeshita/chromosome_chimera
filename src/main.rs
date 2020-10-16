@@ -54,7 +54,7 @@ fn main() {
         }
     }
     for (key, val) in frequency.iter() {
-        if val == &2 { //only one occurrence, aka single occurrence over the chromosome
+        if val == &1 { //only one occurrence, aka single occurrence over the chromosome
             for seq in seqreads.lines() {
                 if seq.contains(key) {
                 println!("{}", seq)
