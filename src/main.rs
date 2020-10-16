@@ -1,13 +1,13 @@
 use std::collections::HashMap;
 use structopt::StructOpt;
-// use std::{fs::File};
-// use std::io::{Write, BufReader, BufRead, Error};
+// use std::io::{BufWriter, BufReader, BufRead, Error};
 
 // use noodles_bam;
 // use noodles_sam;
 /// Search for a pattern in a file and display the lines that contain it.
 #[derive(StructOpt)]
 struct Cli {
+
     /// Sequence to search
     #[structopt(
         short="s",
@@ -29,17 +29,22 @@ struct Cli {
     //     long = "--outfile",
     //     parse(from_os_str)
     // )]
-    //     path: std::path::PathBuf,
+    // outfile: std::path::PathBuf,
 }
-    // since there is only one occurrence per qname, we can use xor
 
 fn main() {
     let args = Cli::from_args();
-    let file = std::fs::read_to_string(&args.infile)
+    let infile = std::fs::read_to_string(&args.infile)
     .expect("could not read file");
+    // let outfile = std::fs::read_to_string(&args.outfile).expect("could not read file");
+    // let out = File::create(&args.outfile);
+    // let reader = BufReader::new(out);
+    // let mut writer = BufWriter::new(std::io::stdout());
+    // let out = File::open(out).unwrap();
+    // let mut temp = String::new();
     let mut frequency: HashMap<&str, u32> = HashMap::new(); //frequency hashmap
     let mut seqreads = String::new();
-    for read in file.lines() {
+    for read in infile.lines() {
         if read.starts_with('\u{0040}'){println!("{}", read);} else { //'\u{0040}'
             if read.contains(&args.sequence) {
             seqreads.push_str(read);
@@ -49,16 +54,17 @@ fn main() {
         }
     }
     for (key, val) in frequency.iter() {
-        if val == &1 { //only one occurrence, aka single occurrence over the chromosome
+        if val == &2 { //only one occurrence, aka single occurrence over the chromosome
             for seq in seqreads.lines() {
                 if seq.contains(key) {
-                    println!("{}", seq);                
+                println!("{}", seq)
                 }
             }
-        }  
+        }
     }
+    // file.flush();
+    // writer.flush().unwrap()
 }
-
 
 // fn get_seqreads_index(name: &String, array: &Vec<String>) -> Option<usize> {
 //     match array.binary_search(name) {
