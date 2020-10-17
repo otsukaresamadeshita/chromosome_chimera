@@ -1,5 +1,5 @@
 [package]
-name = "biotools"
+name = "sam"
 version = "0.1.0"
 authors = ["Christopher Sugai <christophersugai@gmail.com>"]
 edition = "2018"
