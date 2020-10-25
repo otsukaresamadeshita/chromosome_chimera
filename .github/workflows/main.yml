@@ -18,16 +18,16 @@ jobs:
           override: true
 
       - name: Build
-        run: cargo build --all --release && strip target/release/sam && mv target/release/sam target/release/sam_amd64
+        run: cargo build --all --release && strip target/release/chromosome_chimera && mv target/release/chromosome_chimera target/release/chromosome_chimera_amd64
 
       - name: Release
         uses: softprops/action-gh-release@v1
 #         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            target/release/sam_amd64
-          tag_name: sam_amd64
-          release_name: sam_amd64
+            target/release/chromosome_chimera_amd64
+          tag_name: chromosome_chimera_amd64
+          release_name: chromosome_chimera_amd64
 #           body: |
 #             Changes in this Release
 #             - First Change
@@ -58,9 +58,9 @@ jobs:
         uses: softprops/action-gh-release@v1
 #         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: target/release/sam.exe
-          tag_name: sam_win.exe
-          release_name: sam_win.exe
+          files: target/release/chromosome_chimera.exe
+          tag_name: chromosome_chimera_win.exe
+          release_name: chromosome_chimera_win.exe
 #           body: |
 #             Changes in this Release
 #             - First Change
@@ -86,16 +86,16 @@ jobs:
           override: true
 
       - name: Build for mac
-        run: cargo build --all --release && strip target/release/sam && mv target/release/sam target/release/sam_darwin
+        run: cargo build --all --release && strip target/release/chromosome_chimera && mv target/release/chromosome_chimera target/release/chromosome_chimera_darwin
 
       - name: Release
         uses: softprops/action-gh-release@v1
 #         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            target/release/sam_darwin
-          tag_name: sam_mac.app
-          release_name: sam_mac.app
+            target/release/chromosome_chimera_darwin
+          tag_name: chromosome_chimera_mac.app
+          release_name: chromosome_chimera_mac.app
 #           body: |
 #             Changes in this Release
 #             - First Change
