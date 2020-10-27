@@ -1,5 +1,5 @@
 [package]
-name = "sam"
+name = "chromosome_chimera"
 version = "0.1.0"
 authors = ["Christopher Sugai <christophersugai@gmail.com>"]
 edition = "2018"
